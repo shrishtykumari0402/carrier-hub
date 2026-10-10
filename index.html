@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CareerHub helps you find your next job or internship opportunity.">
+  <meta name="theme-color" content="#2457d6">
+  <title>CareerHub – Job &amp; Internship Portal</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💼%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="logo" href="#home">CareerHub</a>
+
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#jobs">Jobs</a></li>
+        <li><a href="#saved-jobs">Saved Jobs</a></li>
+        <li><a href="#applications">My Applications</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+   
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <p class="eyebrow">Your next step starts here</p>
+        <h1>Find Your Next Opportunity</h1>
+        <p class="hero-description">
+          Explore job and internship opportunities and take the next step in your career.
+        </p>
+        <a class="button" href="#jobs">Explore Jobs</a>
+      </div>
+    </section>
+
+    <section class="jobs-section" id="jobs">
+      <div class="section-heading">
+        <h2>Explore Opportunities</h2>
+        <p>Discover jobs and internships to help you take the next step.</p>
+      </div>
+      <div class="search-area">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search jobs by title, company or skill..."
+          aria-label="Search jobs by title, company or skill"
+        >
+        <button type="button" id="search-button">Search</button>
+      </div>
+      <div class="filter-area">
+        <select id="type-filter" aria-label="Filter jobs by type">
+          <option value="All Types">All Types</option>
+          <option value="Internship">Internship</option>
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+        </select>
+        <select id="location-filter" aria-label="Filter jobs by location">
+          <option value="All Locations">All Locations</option>
+          <option value="Remote">Remote</option>
+          <option value="New York, NY">New York, NY</option>
+          <option value="Chicago, IL">Chicago, IL</option>
+          <option value="Austin, TX">Austin, TX</option>
+          <option value="Boston, MA">Boston, MA</option>
+        </select>
+        <select id="sort-filter" aria-label="Sort jobs">
+          <option value="default">Default Order</option>
+          <option value="title">Job Title (A–Z)</option>
+          <option value="company">Company Name (A–Z)</option>
+        </select>
+      </div>
+      <div class="results-row">
+        <p id="results-count"></p>
+        <button type="button" class="clear-filters-button" id="clear-filters">Clear filters</button>
+      </div>
+      <div class="jobs-grid" id="jobs-container"></div>
+    </section>
+
+    <section class="jobs-section" id="saved-jobs">
+      <div class="section-heading">
+        <h2>Saved Jobs</h2>
+        <p>Your bookmarked opportunities will appear here.</p>
+      </div>
+      <div class="jobs-grid" id="saved-jobs-container"></div>
+    </section>
+
+    <div class="job-modal" id="job-modal" hidden>
+      <div class="job-modal-content">
+        <div id="job-details"></div>
+        <button type="button" class="close-modal-button" id="close-modal">Close</button>
+      </div>
+    </div>
+
+    <div class="job-modal application-modal" id="application-modal" hidden>
+      <div class="job-modal-content">
+        <h2>Apply for <span id="application-job-title"></span></h2>
+        <form id="application-form" novalidate>
+          <label for="applicant-name">Full Name</label>
+          <input type="text" id="applicant-name">
+
+          <label for="applicant-email">Email Address</label>
+          <input type="email" id="applicant-email">
+
+          <label for="cover-message">Cover Message</label>
+          <textarea id="cover-message" rows="5"></textarea>
+
+          <p class="form-message" id="form-message"></p>
+
+          <div class="application-buttons">
+            <button type="submit" class="details-button">Submit Application</button>
+            <button type="button" class="close-modal-button" id="close-application">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <section class="applications-section" id="applications">
+      <div class="section-heading">
+        <h2>My Applications</h2>
+        <p>Your submitted applications will appear here.</p>
+      </div>
+      <div id="applications-container"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 CareerHub</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
