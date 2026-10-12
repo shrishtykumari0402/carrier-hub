@@ -1,14 +1,4 @@
-/* CareerHub styles. Plain-English guide to the CSS words used below.
-   :root / var(--blue)       Colours are saved once as variables, then reused.
-   [data-theme="dark"]       The same variables get new values in dark mode.
-   rem                       A size relative to the page's text size.
-   display: grid / flex      Two ways to place items in rows and columns.
-   ::before / ::after        Extra decorative boxes the browser adds to an element.
-   :hover / :focus-visible   Styles for mouse-over and for keyboard focus.
-   transition / @keyframes   Smooth changes and animations.
-   @media (max-width: ...)   Styles that only apply on screens narrower than that. */
 
-/* 1. Design tokens */
 :root {
   color-scheme: light;
   /* Brand colors */
