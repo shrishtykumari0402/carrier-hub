@@ -4,134 +4,251 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="CareerHub helps you find your next job or internship opportunity.">
-  <meta name="theme-color" content="#2457d6">
+  <meta name="theme-color" content="#0b1a3a">
   <title>CareerHub – Job &amp; Internship Portal</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💼%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%232457d6'/%3E%3Cpath d='M12 29V11h4v14h12v4z' fill='white'/%3E%3C/svg%3E">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-  <header class="header site-header">
+<body class="logged-out">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
     <nav class="navbar" aria-label="Main navigation">
       <a class="logo" href="#home">CareerHub</a>
-
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#jobs">Jobs</a></li>
-        <li><a href="#saved-jobs">Saved Jobs</a></li>
-        <li><a href="#applications">My Applications</a></li>
-      </ul>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home" class="is-active">Home</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li class="member-link"><a href="#jobs">Jobs</a></li>
+        <li class="member-link"><a href="#saved-jobs">Saved Jobs <span class="nav-count" id="saved-count">0</span></a></li>
+        <li class="member-link"><a href="#applications">My Applications <span class="nav-count" id="applications-count">0</span></a></li>
+        </ul>
+      <div class="nav-actions">
+        <button class="auth-nav-button" id="login-button" type="button" data-auth-open="login">Login</button>
+        <button class="auth-nav-button auth-nav-primary" id="register-button" type="button" data-auth-open="register">Register</button>
+        <span id="user-menu" hidden>Hi, <span id="user-name"></span> <button class="auth-nav-button" id="logout-button" type="button">Logout</button></span>
+        <button class="icon-button theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Toggle color theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18V3Z" fill="currentColor"></path><path d="M12 3a9 9 0 0 1 0 18" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
+        </button>
+      </div>
     </nav>
   </header>
 
-  <main>
-   
-    <section class="hero" id="home">
-      <div class="hero-content">
-        <p class="eyebrow">Your next step starts here</p>
-        <h1>Find Your Next Opportunity</h1>
-        <p class="hero-description">
-          Explore job and internship opportunities and take the next step in your career.
-        </p>
-        <a class="button" href="#jobs">Explore Jobs</a>
+  <main id="main-content">
+    <section class="hero" id="home" data-spy-section>
+      <div class="hero-inner">
+        <div class="hero-content">
+          <p class="eyebrow">Your next step starts here</p>
+          <h1>Find Your Next <span class="hero-highlight">Opportunity</span></h1>
+          <p class="hero-description">Explore job and internship opportunities and take the next step in your career.</p>
+          <div class="hero-actions">
+            <a class="button" href="#jobs">Explore Jobs <span aria-hidden="true">→</span></a>
+            <a class="button button-ghost" href="#how-it-works">How it works</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <article class="hero-preview-card hero-preview-card-secondary">
+            <div class="hero-preview-company"><span class="hero-preview-company-mark">B</span><div><h2>Frontend Developer Intern</h2><p>Bright Pixel Studio</p></div></div>
+            <p class="hero-preview-meta">Remote <span>Internship</span></p>
+            <div class="hero-preview-skills"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+          </article>
+          <article class="hero-preview-card hero-preview-card-main">
+            <div class="hero-preview-label"><span></span> FEATURED OPPORTUNITY</div>
+            <div class="hero-preview-company"><span class="hero-preview-company-mark hero-preview-company-mark-featured">A</span><div><h2>Software Engineer</h2><p>Atlas Systems</p></div></div>
+            <p class="hero-preview-meta">New York, NY <span>Full-time</span></p>
+            <div class="hero-preview-skills"><span>JavaScript</span><span>APIs</span><span>Git</span></div>
+            <div class="hero-preview-footer"><p>$82k–$105k <span>/ year</span></p><span class="hero-preview-action">Apply now <span aria-hidden="true">→</span></span></div>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section class="jobs-section" id="jobs">
-      <div class="section-heading">
-        <h2>Explore Opportunities</h2>
-        <p>Discover jobs and internships to help you take the next step.</p>
+    <section class="trust-strip" aria-label="Trusted hiring companies">
+      <div class="trust-inner">
+        <p>Trusted by <strong>120+</strong> hiring companies</p>
+        <div class="marquee" aria-label="Bright Pixel, Northstar, Craft and Company, Clearview, Goodway, Launchpad, Orbit Health, Atlas">
+          <div class="marquee-track">
+            <span>Bright Pixel</span><span>Northstar</span><span>Craft &amp; Co.</span><span>Clearview</span><span>Goodway</span><span>Launchpad</span><span>Orbit Health</span><span>Atlas</span>
+            <span aria-hidden="true">Bright Pixel</span><span aria-hidden="true">Northstar</span><span aria-hidden="true">Craft &amp; Co.</span><span aria-hidden="true">Clearview</span><span aria-hidden="true">Goodway</span><span aria-hidden="true">Launchpad</span><span aria-hidden="true">Orbit Health</span><span aria-hidden="true">Atlas</span>
+          </div>
+        </div>
       </div>
-      <div class="search-area">
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Search jobs by title, company or skill..."
-          aria-label="Search jobs by title, company or skill"
-        >
-        <button type="button" id="search-button">Search</button>
-      </div>
-      <div class="filter-area">
-        <select id="type-filter" aria-label="Filter jobs by type">
-          <option value="All Types">All Types</option>
-          <option value="Internship">Internship</option>
-          <option value="Full-time">Full-time</option>
-          <option value="Part-time">Part-time</option>
-        </select>
-        <select id="location-filter" aria-label="Filter jobs by location">
-          <option value="All Locations">All Locations</option>
-          <option value="Remote">Remote</option>
-          <option value="New York, NY">New York, NY</option>
-          <option value="Chicago, IL">Chicago, IL</option>
-          <option value="Austin, TX">Austin, TX</option>
-          <option value="Boston, MA">Boston, MA</option>
-        </select>
-        <select id="sort-filter" aria-label="Sort jobs">
-          <option value="default">Default Order</option>
-          <option value="title">Job Title (A–Z)</option>
-          <option value="company">Company Name (A–Z)</option>
-        </select>
-      </div>
-      <div class="results-row">
-        <p id="results-count"></p>
-        <button type="button" class="clear-filters-button" id="clear-filters">Clear filters</button>
-      </div>
-      <div class="jobs-grid" id="jobs-container"></div>
     </section>
 
-    <section class="jobs-section" id="saved-jobs">
-      <div class="section-heading">
-        <h2>Saved Jobs</h2>
-        <p>Your bookmarked opportunities will appear here.</p>
+    <section class="stats-section" id="stats" data-reveal>
+      <div class="section-content stats-grid">
+        <div class="stat-item"><strong data-count="12">0</strong><span>Open roles</span></div>
+        <div class="stat-item"><strong data-count="120" data-suffix="+">0</strong><span>Partner companies</span></div>
+        <div class="stat-item"><strong data-count="85" data-suffix="%">0</strong><span>Response rate</span></div>
+        <div class="stat-item"><strong data-count="48" data-suffix="h">0</strong><span>Average reply</span></div>
       </div>
-      <div class="jobs-grid" id="saved-jobs-container"></div>
+    </section>
+
+    <section class="how-section" id="how-it-works" data-spy-section>
+      <div class="section-content">
+        <div class="section-heading" data-reveal><span class="section-kicker">A CLEARER WAY FORWARD</span><h2>From discovery to your next step</h2><p>Everything you need to move from looking to landing.</p></div>
+        <div class="steps-grid" data-reveal>
+          <article class="step-card"><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"></circle><path d="m16 16 4 4"></path></svg></span><span class="step-number">01</span><h3>Search</h3><p>Explore roles matched to your interests and skills.</p></article>
+          <article class="step-card"><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 8.8c0 5.2-8.5 10-8.5 10s-8.5-4.8-8.5-10a4.5 4.5 0 0 1 8.5-2.1 4.5 4.5 0 0 1 8.5 2.1Z"></path></svg></span><span class="step-number">02</span><h3>Save</h3><p>Build a shortlist and compare opportunities later.</p></article>
+          <article class="step-card"><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"></path></svg></span><span class="step-number">03</span><h3>Apply</h3><p>Share your details and send a clear application.</p></article>
+          <article class="step-card"><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15l3-4 3 2 5-6"></path></svg></span><span class="step-number">04</span><h3>Track</h3><p>Keep your applications and progress in one place.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="login-gate light-band" id="login-gate" aria-label="Login required">
+      <div class="section-content login-gate-content">
+        <span class="section-kicker">MEMBERS ONLY</span>
+        <h2>Login or register to see the jobs</h2>
+        <p>Create a free account to browse opportunities, save jobs and track your applications.</p>
+        <div class="login-gate-buttons"><button type="button" class="button" data-auth-open="register">Register</button><button type="button" class="button button-outline" data-auth-open="login">Login</button></div>
+      </div>
+    </section>
+
+    <section class="jobs-section light-band" id="jobs" data-spy-section>
+      <div class="section-content jobs-content">
+        <div class="section-heading" data-reveal>
+          <span class="section-kicker">OPPORTUNITY BOARD</span>
+          <h2>Explore Opportunities</h2>
+          <p>Find a role that fits your skills, goals, and next big idea.</p>
+        </div>
+        <div class="search-panel" data-reveal>
+          <div class="search-area">
+            <label class="visually-hidden" for="search-input">Search jobs by title, company or skill</label>
+            <input type="search" id="search-input" placeholder="Search jobs by title, company or skill..." autocomplete="off">
+            <button type="button" id="search-button">Search</button>
+          </div>
+          <div class="filter-area">
+            <label class="visually-hidden" for="type-filter">Filter jobs by type</label>
+            <select id="type-filter"><option value="All Types">All Types</option><option value="Internship">Internship</option><option value="Full-time">Full-time</option><option value="Part-time">Part-time</option></select>
+            <label class="visually-hidden" for="location-filter">Filter jobs by location</label>
+            <select id="location-filter"><option value="All Locations">All Locations</option><option value="Remote">Remote</option><option value="New York, NY">New York, NY</option><option value="Chicago, IL">Chicago, IL</option><option value="Austin, TX">Austin, TX</option><option value="Boston, MA">Boston, MA</option></select>
+            <label class="visually-hidden" for="sort-filter">Sort jobs</label>
+            <select id="sort-filter"><option value="default">Default Order</option><option value="newest">Newest first</option><option value="title">Job Title (A–Z)</option><option value="company">Company Name (A–Z)</option></select>
+          </div>
+        </div>
+        <div class="category-tabs">
+          <button type="button" class="is-active" data-category="All">All</button>
+          <button type="button" data-category="Engineering">Engineering</button>
+          <button type="button" data-category="Design">Design</button>
+          <button type="button" data-category="Marketing">Marketing</button>
+          <button type="button" data-category="Data">Data</button>
+          <button type="button" data-category="Support">Support</button>
+        </div>
+        <div class="results-row">
+          <p id="results-count" aria-live="polite"></p>
+          <button type="button" class="clear-filters-button" id="clear-filters">Clear filters</button>
+        </div>
+        <div class="jobs-grid" id="jobs-container"></div>
+        <button type="button" class="button button-outline load-more-button" id="load-more" hidden>Load more jobs</button>
+      </div>
+    </section>
+
+    <section class="saved-section light-band" id="saved-jobs" data-spy-section>
+      <div class="section-content saved-content">
+        <div class="section-heading" data-reveal><span class="section-kicker">YOUR SHORTLIST</span><h2>Saved Jobs <span class="heading-count" id="saved-section-count">0</span></h2><p>Keep promising opportunities close while you decide.</p></div>
+        <div class="jobs-grid" id="saved-jobs-container"></div>
+      </div>
+    </section>
+
+    <section class="applications-section light-band" id="applications" data-spy-section>
+      <div class="section-content applications-content">
+        <div class="section-heading" data-reveal><span class="section-kicker">APPLICATION TRACKER</span><h2>My Applications <span class="heading-count" id="application-section-count">0</span></h2><p>Stay organized and follow each opportunity through the next stage.</p></div>
+        <div class="application-summary" id="application-summary" role="status" aria-live="polite"></div>
+        <div id="applications-container" class="applications-grid"></div>
+      </div>
+    </section>
+
+    <section class="final-cta" id="cta" data-reveal>
+      <div class="section-content cta-content"><span class="section-kicker">MAKE YOUR NEXT MOVE</span><h2>Ready to find the right fit?</h2><p>Explore opportunities and take one small step toward your next big thing.</p><a class="button" href="#jobs">Explore open roles <span aria-hidden="true">→</span></a></div>
     </section>
 
     <div class="job-modal" id="job-modal" hidden>
-      <div class="job-modal-content">
-        <div id="job-details"></div>
+      <div class="job-modal-content" role="dialog" aria-modal="true" aria-labelledby="job-modal-title" tabindex="-1">
+        <div id="job-details"><h2 id="job-modal-title">Job details</h2></div>
         <button type="button" class="close-modal-button" id="close-modal">Close</button>
       </div>
     </div>
-
     <div class="job-modal application-modal" id="application-modal" hidden>
-      <div class="job-modal-content">
-        <h2>Apply for <span id="application-job-title"></span></h2>
+      <div class="job-modal-content" role="dialog" aria-modal="true" aria-labelledby="application-modal-title" tabindex="-1">
+        <h2 id="application-modal-title">Apply for <span id="application-job-title"></span></h2>
         <form id="application-form" novalidate>
           <label for="applicant-name">Full Name</label>
-          <input type="text" id="applicant-name">
-
+          <input type="text" id="applicant-name" aria-describedby="applicant-name-error" autocomplete="name">
+          <p class="field-error" id="applicant-name-error"></p>
           <label for="applicant-email">Email Address</label>
-          <input type="email" id="applicant-email">
-
-          <label for="cover-message">Cover Message</label>
-          <textarea id="cover-message" rows="5"></textarea>
-
-          <p class="form-message" id="form-message"></p>
-
-          <div class="application-buttons">
-            <button type="submit" class="details-button">Submit Application</button>
-            <button type="button" class="close-modal-button" id="close-application">Close</button>
-          </div>
+          <input type="email" id="applicant-email" aria-describedby="applicant-email-error" autocomplete="email">
+          <p class="field-error" id="applicant-email-error"></p>
+          <label for="cover-message">Cover Message <span class="field-hint">(at least 30 characters)</span></label>
+          <textarea id="cover-message" rows="5" aria-describedby="cover-message-error cover-counter"></textarea>
+          <div class="character-counter" id="cover-counter" aria-live="polite">0 / 30 characters</div>
+          <p class="field-error" id="cover-message-error"></p>
+          <label for="resume-file">Resume (PDF, DOC or DOCX, max 2 MB)</label>
+          <input type="file" id="resume-file" accept=".pdf,.doc,.docx" aria-describedby="resume-error resume-info">
+          <p class="resume-info" id="resume-info"></p>
+          <p class="field-error" id="resume-error"></p>
+          <p class="form-message" id="form-message" aria-live="polite"></p>
+          <div class="application-buttons"><button type="submit" class="apply-button">Submit Application</button><button type="button" class="close-modal-button" id="close-application">Close</button></div>
         </form>
       </div>
     </div>
-
-    <section class="applications-section" id="applications">
-      <div class="section-heading">
-        <h2>My Applications</h2>
-        <p>Your submitted applications will appear here.</p>
+    <div class="job-modal auth-modal" id="auth-modal" hidden>
+      <div class="job-modal-content" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" tabindex="-1">
+        <h2 id="auth-modal-title">Welcome to CareerHub</h2>
+        <div class="auth-tabs">
+          <button type="button" id="auth-login-tab" class="is-active">Login</button>
+          <button type="button" id="auth-register-tab">Register</button>
+        </div>
+        <form id="login-form" novalidate>
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" autocomplete="email" aria-describedby="login-email-error">
+          <p class="field-error" id="login-email-error"></p>
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" autocomplete="current-password" aria-describedby="login-password-error">
+          <p class="field-error" id="login-password-error"></p>
+          <label class="password-toggle-label"><input type="checkbox" data-show-password="login-password"> Show password</label>
+          <p class="form-message" id="login-message" aria-live="polite"></p>
+          <button type="submit" class="apply-button auth-submit">Login</button>
+        </form>
+        <form id="register-form" hidden novalidate>
+          <label for="register-name">Full Name</label>
+          <input type="text" id="register-name" autocomplete="name" aria-describedby="register-name-error">
+          <p class="field-error" id="register-name-error"></p>
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" autocomplete="email" aria-describedby="register-email-error">
+          <p class="field-error" id="register-email-error"></p>
+          <label for="register-password">Password</label>
+          <input type="password" id="register-password" autocomplete="new-password" aria-describedby="register-password-error">
+          <p class="field-error" id="register-password-error"></p>
+          <label for="register-confirm-password">Confirm Password</label>
+          <input type="password" id="register-confirm-password" autocomplete="new-password" aria-describedby="register-confirm-password-error">
+          <p class="field-error" id="register-confirm-password-error"></p>
+          <label class="password-toggle-label"><input type="checkbox" data-show-password="register-password,register-confirm-password"> Show password</label>
+          <p class="form-message" id="register-message" aria-live="polite"></p>
+          <button type="submit" class="apply-button auth-submit">Register</button>
+        </form>
+        <button type="button" class="close-modal-button auth-close" id="close-auth">Close</button>
       </div>
-      <div id="applications-container"></div>
-    </section>
+    </div>
   </main>
 
-  <div class="toast" id="toast"></div>
-
+  <button class="motion-toggle" id="motion-toggle" type="button" aria-label="Pause animations" aria-pressed="false" title="Pause animations">
+    <svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></path></svg>
+    <svg class="play-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z" fill="currentColor"></path></svg>
+  </button>
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">↑</button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <footer class="site-footer">
-    <p>&copy; 2026 CareerHub</p>
+    <div class="footer-inner section-content">
+      <div class="footer-brand"><a class="logo logo-footer" href="#home">CareerHub</a><p>Helping people discover work that moves them forward.</p></div>
+      <div class="footer-column"><h2>About</h2><a href="#how-it-works">How it works</a><a href="#jobs">Browse opportunities</a></div>
+      <div class="footer-column"><h2>For job seekers</h2><a href="#jobs">Explore jobs</a><a href="#saved-jobs">Saved jobs</a><a href="#applications">Application tracker</a></div>
+      <div class="footer-column"><h2>Contact</h2><a href="mailto:hello@careerhub.example">hello@careerhub.example</a></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 CareerHub. All rights reserved.</p></div>
   </footer>
-
+  <script src="jobs.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
