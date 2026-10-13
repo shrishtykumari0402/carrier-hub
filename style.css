@@ -97,7 +97,7 @@ section { scroll-margin-top: 88px; }
   letter-spacing: -.055em;
 }
 .section-heading p { margin: 10px 0 0; color: var(--muted); }
-.section-kicker {
+.section-subtitle {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -108,7 +108,7 @@ section { scroll-margin-top: 88px; }
   letter-spacing: .14em;
   text-transform: uppercase;
 }
-.section-kicker::before { width: 7px; height: 7px; border-radius: 2px; background: currentColor; content: ""; }
+.section-subtitle::before { width: 7px; height: 7px; border-radius: 2px; background: currentColor; content: ""; }
 .heading-count, .nav-count {
   display: inline-grid;
   min-width: 25px;
@@ -124,8 +124,6 @@ section { scroll-margin-top: 88px; }
   vertical-align: middle;
 }
 .nav-count { min-width: 20px; height: 20px; margin-left: 3px; font-size: .68rem; }
-[data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
-[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
 
 /* 3. Navigation */
 .site-header {
@@ -372,8 +370,7 @@ section { scroll-margin-top: 88px; }
 .how-section { padding: 74px 24px 80px; background: var(--surface); }
 .how-section .section-heading { margin-bottom: 36px; }
 .steps-grid { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.steps-grid::before { position: absolute; top: 25px; left: 36px; right: calc(25% - 49.5px); height: 1px; background: linear-gradient(90deg, var(--blue), rgba(36, 87, 214, .15)); content: ""; transform: scaleX(0); transform-origin: left; transition: transform 1.2s ease .2s; }
-.steps-grid.is-visible::before { transform: scaleX(1); }
+.steps-grid::before { position: absolute; top: 25px; left: 36px; right: calc(25% - 49.5px); height: 1px; background: linear-gradient(90deg, var(--blue), rgba(36, 87, 214, .15)); content: ""; }
 .step-card { position: relative; z-index: 1; padding: 0 10px; }
 .step-icon { display: grid; width: 52px; height: 52px; place-items: center; margin-bottom: 17px; border: 1px solid var(--border); border-radius: 15px; color: var(--blue); background: var(--surface-soft); }
 .step-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
@@ -423,8 +420,6 @@ section { scroll-margin-top: 88px; }
 .footer-column a:hover { color: var(--teal); }
 .footer-bottom { padding: 15px 24px; border-top: 1px solid rgba(255,255,255,.1); color: var(--dark-muted); text-align: center; font-size: .74rem; }
 .footer-bottom p { margin: 0; }
-.back-to-top { position: fixed; z-index: 14; right: 22px; bottom: 22px; display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid rgba(255,255,255,.18); border-radius: 13px; color: #fff; background: var(--blue); box-shadow: var(--shadow-raised); font-size: 1.2rem; cursor: pointer; opacity: 0; pointer-events: none; visibility: hidden; transform: translateY(8px); transition: opacity .2s ease, transform .2s ease, visibility .2s ease; }
-.back-to-top.is-visible { opacity: 1; pointer-events: auto; visibility: visible; transform: translateY(0); }
 .motion-toggle { position: fixed; z-index: 14; bottom: 24px; left: 18px; display: grid; width: 44px; height: 44px; place-items: center; padding: 0; border: 1px solid var(--border); border-radius: 12px; color: var(--ink); background: var(--surface); box-shadow: var(--shadow-card); cursor: pointer; }
 .motion-toggle svg { display: block; }
 .motion-toggle .play-icon { display: none; }
@@ -484,7 +479,57 @@ body.modal-open { overflow: hidden; }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes modal-enter { from { opacity: 0; transform: translateY(9px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
 .motion-paused *, .motion-paused *::before, .motion-paused *::after { animation: none !important; }
-.motion-paused [data-reveal] { opacity: 1; transform: none; }
+
+/* Courses dropdown: show links on hover or keyboard focus. */
+.dropdown { position: relative; }
+.dropdown-menu {
+  position: absolute;
+  z-index: 30;
+  top: 100%;
+  left: 0;
+  display: none;
+  min-width: 190px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow-raised);
+}
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu { display: grid; }
+.dropdown-menu a {
+  display: block;
+  padding: 9px 12px;
+  border-radius: 7px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.dropdown-menu a:hover,
+.dropdown-menu a:focus { color: var(--blue); background: var(--blue-tint); }
+
+/* Courses section and the three course cards. */
+.courses-section { padding: 64px 0; background: var(--surface); }
+.courses-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.course-card {
+  scroll-margin-top: 100px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+.course-number { color: var(--blue); font-size: .78rem; font-weight: 800; letter-spacing: .1em; }
+.course-card h3 { margin: 12px 0 8px; color: var(--ink); font-size: 1.2rem; }
+.course-card p { margin: 0 0 18px; color: var(--muted); }
+.course-level {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 999px;
+  color: var(--blue);
+  background: var(--blue-tint);
+  font-size: .75rem;
+  font-weight: 700;
+}
 
 /* 10. Responsive */
 @media (max-width: 1050px) {
@@ -564,7 +609,6 @@ body.modal-open { overflow: hidden; }
   .job-detail-meta { grid-template-columns: 1fr; }
   .job-detail-actions, .application-buttons { flex-direction: column; }
   .motion-toggle { bottom: 16px; left: 12px; }
-  .back-to-top { right: 12px; bottom: 12px; }
 }
 @media (max-width: 360px) {
   .navbar { width: calc(100% - 24px); }
@@ -588,7 +632,6 @@ body.modal-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms; animation-iteration-count: 1; transition-duration: .01ms; }
-  [data-reveal] { opacity: 1; transform: none; }
   .hero::before, .hero::after, .marquee-track, .hero-preview-card-main, .hero-preview-card-secondary { animation: none; }
 }
 
@@ -621,7 +664,7 @@ body.modal-open { overflow: hidden; }
 .saved-job-card .skill-chip, .application-card .skill-chip { min-height: 27px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 7px; color: var(--muted); background: var(--surface-soft); font-size: .69rem; font-weight: 600; box-shadow: none; }
 
 /* Dark mode: lighter blue for small text so it stays readable */
-[data-theme="dark"] .section-kicker,
+[data-theme="dark"] .section-subtitle,
 [data-theme="dark"] .step-number,
 [data-theme="dark"] .step-icon,
 [data-theme="dark"] .stat-item strong,
@@ -640,4 +683,62 @@ body.modal-open { overflow: hidden; }
 
 @media (max-width: 767px) {
   .login-gate-content h2 { font-size: 1.6rem; }
+}
+
+
+
+/* Quick fix: equal-height job cards and a full-width, aligned Apply button */
+.jobs-grid {
+  align-items: stretch;
+}
+.job-card {
+  height: 100%;
+  min-height: 450px;
+}
+.job-card .job-pay {
+  margin-top: auto;
+}
+.job-card .card-buttons {
+  grid-template-columns: 1fr;
+  margin-top: 14px;
+}
+.job-card .card-buttons .apply-button {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: .88rem;
+  justify-content: center;
+}
+@media (max-width: 480px) {
+  .job-card {
+    min-height: 0;
+  }
+}
+
+
+/* Fix application tracker visibility and saved-job action alignment */
+#applications-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 18px;
+}
+#applications-container[hidden] { display: none !important; }
+.application-card { min-width: 0; height: 100%; }
+.saved-job-card .card-buttons {
+  grid-template-columns: 1fr 1fr;
+}
+.saved-job-card .card-buttons .remove-saved-button,
+.saved-job-card .card-buttons .apply-button {
+  width: 100%;
+  min-height: 44px;
+  justify-content: center;
+  white-space: nowrap;
+}
+@media (max-width: 1050px) {
+  #applications-container { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  #applications-container { grid-template-columns: 1fr; }
 }

@@ -16,9 +16,6 @@ const categoryTabs = document.querySelector(".category-tabs");
 const resultsCount = document.getElementById("results-count");
 const loadMoreButton = document.getElementById("load-more");
 
-const jobModal = document.getElementById("job-modal");
-const jobDetails = document.getElementById("job-details");
-const closeModalButton = document.getElementById("close-modal");
 
 const applicationModal = document.getElementById("application-modal");
 const applicationForm = document.getElementById("application-form");
@@ -56,7 +53,6 @@ const toast = document.getElementById("toast");
 const motionToggle = document.getElementById("motion-toggle");
 const themeToggle = document.getElementById("theme-toggle");
 const navLinks = document.getElementById("nav-links");
-const backToTop = document.getElementById("back-to-top");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 const applicationStages = ["Submitted", "Under Review", "Interview", "Offer"];
@@ -68,15 +64,12 @@ let applications = [];
 let users = [];
 let currentUser = null;
 let selectedJob = null;
-let detailsJob = null;
 let selectedCategory = "All";
 let visibleJobLimit = 6;
 let pendingAction = null;
 let toastTimer = 0;
 let nextApplicationNumber = Date.now();
 let storageWarning = false;
-let statsAnimated = false;
-let statTimers = [];
 
 
 function readStorage(key) {
@@ -348,13 +341,12 @@ function buildCardButtons(job, savedView) {
   const applied = hasApplied(job.id);
   const applyText = applied ? "Applied ✓" : (savedView ? "Apply" : "Apply Now");
   const applyButton = `<button type="button" class="apply-button" data-action="apply" data-job-id="${id}"${applied ? " disabled" : ""}>${applyText}</button>`;
-  const detailsButton = `<button type="button" class="details-button" data-action="details" data-job-id="${id}">View Details</button>`;
 
   if (savedView) {
     const removeButton = `<button type="button" class="remove-saved-button" data-action="remove-saved" data-job-id="${id}">Remove</button>`;
-    return removeButton + detailsButton + applyButton;
+    return removeButton + applyButton;
   }
-  return applyButton + detailsButton;
+  return applyButton;
 }
 
 function buildJobCard(job, savedView) {
@@ -383,15 +375,6 @@ function buildEmptyState(heading, copy, showClear) {
 }
 
 
-function buildStepper(currentStage) {
-  let markup = "";
-  for (let i = 0; i < applicationStages.length; i++) {
-    const complete = i <= currentStage ? " is-complete" : "";
-    markup += `<span class="step-status${complete}">${applicationStages[i]}</span>`;
-  }
-  return markup;
-}
-
 function buildResumeText(application) {
   if (!application.resumeName) return "not provided";
   const size = Number(application.resumeSize) || 0;
@@ -401,34 +384,14 @@ function buildResumeText(application) {
 
 function buildApplicationCard(application) {
   const status = application.status || "Submitted";
-  let currentStage = applicationStages.indexOf(status);
-  if (currentStage < 0) currentStage = 0;
   const id = escapeHTML(application.applicationId);
 
   return `<article class="application-card" data-application-id="${id}">
     <div class="application-card-heading"><div><h3>${escapeHTML(application.jobTitle)}</h3><p class="application-company">${escapeHTML(application.company)}</p></div><span class="status-badge">${escapeHTML(status)}</span></div>
     <p class="application-date">Applied ${escapeHTML(application.appliedDate)}</p>
-    <div class="application-stepper" role="img" aria-label="Application progress: ${escapeHTML(status)}">${buildStepper(currentStage)}</div>
     <details class="application-details"><summary>Show details</summary><p><strong>Applicant:</strong> ${escapeHTML(application.name)} · ${escapeHTML(application.email)}</p><p><strong>Cover message:</strong> ${escapeHTML(application.message)}</p><p><strong>Resume:</strong> ${buildResumeText(application)}</p></details>
     <div class="application-actions"><button type="button" class="remove-application-button" data-action="remove-application" data-application-id="${id}">Withdraw</button></div>
   </article>`;
-}
-
-
-function buildJobDetails(job) {
-  const saved = isJobSaved(job.id);
-  const id = escapeHTML(job.id);
-  let applyButton = '<button type="button" class="apply-button" disabled>Applied ✓</button>';
-  if (!hasApplied(job.id)) {
-    applyButton = `<button type="button" class="apply-button" data-action="apply" data-job-id="${id}">Apply Now</button>`;
-  }
-
-  return `<h2 id="job-modal-title">${escapeHTML(job.title)}</h2>
-    <div class="job-detail-meta"><p><strong>Company</strong>${escapeHTML(job.company)}</p><p><strong>Location</strong>${escapeHTML(job.location)}</p><p><strong>Type</strong>${escapeHTML(job.type)}</p><p><strong>Category</strong>${escapeHTML(job.category)}</p></div>
-    <div class="job-detail-skills"><strong>Skills</strong><div class="job-skill-list">${buildSkillChips(job, false)}</div></div>
-    <p class="job-detail-description"><strong>About this role</strong>${escapeHTML(job.description)}</p>
-    <div class="job-detail-meta"><p><strong>Salary</strong>${escapeHTML(job.salary)}</p><p><strong>Posted</strong>${escapeHTML(job.postedDate)}</p></div>
-    <div class="job-detail-actions">${applyButton}<button type="button" class="save-button${saved ? " is-saved" : ""}" data-action="toggle-saved" data-job-id="${id}" aria-pressed="${saved}">${saved ? "Saved" : "Save Job"}</button></div>`;
 }
 
 
@@ -540,6 +503,8 @@ function renderApplications() {
     markup = buildEmptyState("No applications yet", "Your submitted applications and their progress will appear here.", false);
   }
   applicationsContainer.innerHTML = markup;
+  applicationsContainer.hidden = false;
+  applicationsContainer.style.display = "grid";
   updateCountBadges();
 }
 
@@ -583,12 +548,6 @@ function updateAppliedButtons(jobId) {
   }
 }
 
-function showJobDetails(job, triggerButton) {
-  detailsJob = job;
-  jobDetails.innerHTML = buildJobDetails(job);
-  openModal(jobModal, triggerButton, closeModalButton);
-}
-
 function showApplicationForm(job, triggerButton) {
   if (!currentUser) {
     requireLogin("apply", job, triggerButton);
@@ -626,66 +585,8 @@ function highlightNavLink() {
   }
 }
 
-function revealSections() {
-  const items = document.querySelectorAll("[data-reveal]");
-  for (let i = 0; i < items.length; i++) {
-    if (items[i].getBoundingClientRect().top < window.innerHeight - 40) {
-      items[i].classList.add("is-visible");
-    }
-  }
-}
-
-
-function startStatsWhenVisible() {
-  const stats = document.getElementById("stats");
-  if (statsAnimated || !stats) return;
-  if (stats.getBoundingClientRect().top < window.innerHeight - 40) animateStats();
-}
-
-
 function onScroll() {
   highlightNavLink();
-  revealSections();
-  startStatsWhenVisible();
-  backToTop.classList.toggle("is-visible", window.scrollY > 600);
-}
-
-
-function animateStats() {
-  statsAnimated = true;
-  const counters = document.querySelectorAll("[data-count]");
-  const motionOff = prefersReducedMotion.matches || document.documentElement.classList.contains("motion-paused");
-  for (let i = 0; i < counters.length; i++) {
-    const target = Number(counters[i].dataset.count);
-    const suffix = counters[i].dataset.suffix || "";
-    if (motionOff) counters[i].textContent = target + suffix;
-    else animateCounter(counters[i], target, suffix);
-  }
-}
-
-
-function animateCounter(counter, target, suffix) {
-  let currentValue = 0;
-  const step = Math.max(1, Math.ceil(target / 40));
-  const timer = window.setInterval(function () {
-    currentValue += step;
-    if (currentValue >= target) {
-      currentValue = target;
-      window.clearInterval(timer);
-    }
-    counter.textContent = currentValue + suffix;
-  }, 25);
-  statTimers.push(timer);
-}
-
-
-function finishStats() {
-  for (let i = 0; i < statTimers.length; i++) window.clearInterval(statTimers[i]);
-  statTimers = [];
-  const counters = document.querySelectorAll("[data-count]");
-  for (let i = 0; i < counters.length; i++) {
-    counters[i].textContent = counters[i].dataset.count + (counters[i].dataset.suffix || "");
-  }
 }
 
 
@@ -931,7 +832,6 @@ function finishLogin(user, welcomeMessage) {
   loadApplications();
   redrawEverything();
 
-  if (!jobModal.hidden && detailsJob) jobDetails.innerHTML = buildJobDetails(detailsJob);
 
   const action = pendingAction;
   pendingAction = null;
@@ -1082,7 +982,6 @@ function onJobAction(event) {
   }
 
   if (action === "apply") showApplicationForm(job, button);
-  else if (action === "details") showJobDetails(job, button);
   else if (action === "toggle-saved") toggleSavedJob(job);
   else if (action === "remove-saved") removeSavedJob(job.id);
 }
@@ -1184,17 +1083,12 @@ function onCoverMessageInput() {
   clearFieldError(coverMessage, "cover-message-error");
 }
 
-function onCloseJobModal() {
-  closeModal(jobModal);
-}
-
 function onCloseApplication() {
   closeModal(applicationModal);
 }
 
 
 function onModalBackdropClick(event) {
-  if (event.target === jobModal) closeModal(jobModal);
   if (event.target === applicationModal) closeModal(applicationModal);
   if (event.target === authModal) closeAuthModal();
 }
@@ -1203,12 +1097,13 @@ function onDocumentKeydown(event) {
   if (event.key === "Escape") {
     if (!applicationModal.hidden) closeModal(applicationModal);
     else if (!authModal.hidden) closeAuthModal();
-    else if (!jobModal.hidden) closeModal(jobModal);
   }
 }
 
 function onJobsLinkClick(event) {
-  const link = event.target.closest("a[href='#jobs'], a[href='#saved-jobs'], a[href='#applications']");
+ const link = event.target.closest(
+  "a[href='#jobs'], a[href='#saved-jobs'], a[href='#applications'], a[href='#courses']]"
+);
   if (!link || currentUser) return;
   event.preventDefault();
   openAuthModal("register", link);
@@ -1233,11 +1128,6 @@ function onRegisterTabClick() {
   document.getElementById("register-name").focus();
 }
 
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-
 function toggleTheme() {
   const darkMode = document.documentElement.dataset.theme !== "dark";
   const theme = darkMode ? "dark" : "light";
@@ -1261,11 +1151,6 @@ function toggleMotion() {
   motionToggle.setAttribute("aria-pressed", String(paused));
   motionToggle.title = paused ? "Resume animations" : "Pause animations";
   if (!writeText("careerHubMotionPaused", String(paused))) showToast("Motion preference could not be saved.");
-  if (paused) {
-    finishStats();
-    const items = document.querySelectorAll("[data-reveal]");
-    for (let i = 0; i < items.length; i++) items[i].classList.add("is-visible");
-  }
 }
 
 
@@ -1287,7 +1172,6 @@ function loadSavedData() {
 function connectJobEvents() {
   jobsContainer.addEventListener("click", onJobAction);
   savedJobsContainer.addEventListener("click", onJobAction);
-  jobDetails.addEventListener("click", onJobAction);
   applicationsContainer.addEventListener("click", onApplicationAction);
   searchInput.addEventListener("input", onSearchChange);
   searchInput.addEventListener("keydown", onSearchKeydown);
@@ -1306,9 +1190,7 @@ function connectApplicationEvents() {
   applicantEmail.addEventListener("input", onEmailInput);
   coverMessage.addEventListener("input", onCoverMessageInput);
   resumeFile.addEventListener("change", updateResumeInfo);
-  closeModalButton.addEventListener("click", onCloseJobModal);
   closeApplicationButton.addEventListener("click", onCloseApplication);
-  jobModal.addEventListener("click", onModalBackdropClick);
   applicationModal.addEventListener("click", onModalBackdropClick);
 }
 
@@ -1331,7 +1213,6 @@ function connectAuthEvents() {
 function connectPageEvents() {
   themeToggle.addEventListener("click", toggleTheme);
   motionToggle.addEventListener("click", toggleMotion);
-  backToTop.addEventListener("click", scrollToTop);
   document.addEventListener("keydown", onDocumentKeydown);
   window.addEventListener("scroll", onScroll);
   window.addEventListener("resize", onScroll);

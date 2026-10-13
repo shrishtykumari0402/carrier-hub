@@ -167,5 +167,19 @@ const jobs = [
     salary: "$32–$40 per hour",
     postedDate: "September 11, 2026",
     postedAt: "2026-09-11"
-  }
+  },
+  {
+  id: "backend-developer-intern",
+  title: "Backend Developer Intern",
+  company: "TechNova Solutions",
+  location: "Remote",
+  type: "Internship",
+  category: "Engineering",
+  skills: "Node.js, Express.js, MongoDB",
+  salary: "₹15,000 per month",
+  postedDate: "October 13, 2026",
+  isNew: true,
+  description: "Work on backend APIs and database operations."
+}
+  
 ];
