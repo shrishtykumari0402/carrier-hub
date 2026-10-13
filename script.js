@@ -1102,7 +1102,7 @@ function onDocumentKeydown(event) {
 
 function onJobsLinkClick(event) {
  const link = event.target.closest(
-  "a[href='#jobs'], a[href='#saved-jobs'], a[href='#applications'], a[href='#courses']]"
+  "a[href='#jobs'], a[href='#saved-jobs'], a[href='#applications']]"
 );
   if (!link || currentUser) return;
   event.preventDefault();
